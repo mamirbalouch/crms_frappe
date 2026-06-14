@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "mobile_number",
+  "call_type",
+  "date_of_communication",
+  "duration",
+  "rbs",
+  "latitude",
+  "longitude"
+ ],
+ "fields": [
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "call_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Call Type",
+   "options": "Call Type"
+  },
+  {
+   "fieldname": "date_of_communication",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Date of Communication"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Float",
+   "label": "Duration (seconds)"
+  },
+  {
+   "fieldname": "rbs",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RBS (Cell Tower)"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Data",
+   "label": "Latitude"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Data",
+   "label": "Longitude"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Geo Location Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

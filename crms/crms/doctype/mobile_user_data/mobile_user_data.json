@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "mobile_number",
+  "mobile_operator",
+  "name_of_mobile_user",
+  "nic_no",
+  "column_break_1",
+  "address_of_mobile_user",
+  "line",
+  "doa",
+  "section_other",
+  "other_information_1",
+  "other_information_2"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "MUD-.YYYY.-.####"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_operator",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Mobile Operator",
+   "options": "Mobile Operator",
+   "reqd": 1
+  },
+  {
+   "fieldname": "name_of_mobile_user",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name of Mobile User"
+  },
+  {
+   "fieldname": "nic_no",
+   "fieldtype": "Data",
+   "label": "NIC No"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_of_mobile_user",
+   "fieldtype": "Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "line",
+   "fieldtype": "Data",
+   "label": "Line"
+  },
+  {
+   "fieldname": "doa",
+   "fieldtype": "Date",
+   "label": "Date of Activation (DOA)"
+  },
+  {
+   "fieldname": "section_other",
+   "fieldtype": "Section Break",
+   "label": "Other Information"
+  },
+  {
+   "fieldname": "other_information_1",
+   "fieldtype": "Text",
+   "label": "Other Information 1"
+  },
+  {
+   "fieldname": "other_information_2",
+   "fieldtype": "Text",
+   "label": "Other Information 2"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Mobile User Data",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "mobile_number,name_of_mobile_user,nic_no",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "mobile_number",
+ "track_changes": 1
+}

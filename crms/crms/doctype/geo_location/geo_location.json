@@ -1,0 +1,135 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "case_project",
+  "mobile_operator",
+  "case_phase",
+  "date_of_entry",
+  "column_break_1",
+  "geo_date_from",
+  "geo_date_to",
+  "section_description",
+  "geo_location_description",
+  "geo_location_remarks",
+  "section_details",
+  "geo_location_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "GEO-.YYYY.-.####"
+  },
+  {
+   "fieldname": "case_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Project",
+   "options": "Case Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_operator",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Mobile Operator",
+   "options": "Mobile Operator"
+  },
+  {
+   "fieldname": "case_phase",
+   "fieldtype": "Link",
+   "label": "Case Phase",
+   "options": "Case Phase"
+  },
+  {
+   "fieldname": "date_of_entry",
+   "fieldtype": "Date",
+   "label": "Date of Entry"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "geo_date_from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Geo Date From"
+  },
+  {
+   "fieldname": "geo_date_to",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Geo Date To"
+  },
+  {
+   "fieldname": "section_description",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "geo_location_description",
+   "fieldtype": "Data",
+   "label": "Geo Location Description"
+  },
+  {
+   "fieldname": "geo_location_remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Location Details"
+  },
+  {
+   "fieldname": "geo_location_details",
+   "fieldtype": "Table",
+   "label": "Geo Location Details",
+   "options": "Geo Location Detail"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Geo Location",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "case_project,geo_location_description",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

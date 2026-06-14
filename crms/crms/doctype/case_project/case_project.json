@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "case_title",
+  "case_status",
+  "case_phase",
+  "investigating_officer",
+  "creation_date",
+  "column_break_1",
+  "fir_no",
+  "fir_date",
+  "police_station",
+  "section",
+  "source",
+  "section_case_details",
+  "case_summary",
+  "section_challan",
+  "case_challaned",
+  "challan_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CASE-.YYYY.-.####"
+  },
+  {
+   "fieldname": "case_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Case Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "case_status",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Status",
+   "options": "Case Status",
+   "reqd": 1
+  },
+  {
+   "fieldname": "case_phase",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Phase",
+   "options": "Case Phase"
+  },
+  {
+   "fieldname": "investigating_officer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Investigating Officer",
+   "options": "Investigation Officer"
+  },
+  {
+   "fieldname": "creation_date",
+   "fieldtype": "Date",
+   "label": "Creation Date"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fir_no",
+   "fieldtype": "Data",
+   "label": "FIR No"
+  },
+  {
+   "fieldname": "fir_date",
+   "fieldtype": "Date",
+   "label": "FIR Date"
+  },
+  {
+   "fieldname": "police_station",
+   "fieldtype": "Data",
+   "label": "Police Station"
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Data",
+   "label": "Section"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "label": "Source"
+  },
+  {
+   "fieldname": "section_case_details",
+   "fieldtype": "Section Break",
+   "label": "Case Details"
+  },
+  {
+   "fieldname": "case_summary",
+   "fieldtype": "Text Editor",
+   "label": "Case Summary"
+  },
+  {
+   "fieldname": "section_challan",
+   "fieldtype": "Section Break",
+   "label": "Challan Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "case_challaned",
+   "fieldtype": "Check",
+   "label": "Case Challaned"
+  },
+  {
+   "depends_on": "eval:doc.case_challaned",
+   "fieldname": "challan_details",
+   "fieldtype": "Text",
+   "label": "Challan Details"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Case Project",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "case_title,fir_no,police_station",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "case_title",
+ "track_changes": 1
+}

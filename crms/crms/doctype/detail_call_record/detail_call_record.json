@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "second_party_number",
+  "call_type",
+  "date_of_communication",
+  "duration",
+  "column_break_1",
+  "imei",
+  "rbs",
+  "latitude",
+  "longitude",
+  "case_phase"
+ ],
+ "fields": [
+  {
+   "fieldname": "second_party_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Second Party Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "call_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Call Type",
+   "options": "Call Type"
+  },
+  {
+   "fieldname": "date_of_communication",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Date of Communication"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Duration (seconds)"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "imei",
+   "fieldtype": "Data",
+   "label": "IMEI"
+  },
+  {
+   "fieldname": "rbs",
+   "fieldtype": "Data",
+   "label": "RBS (Cell Tower)"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Data",
+   "label": "Latitude"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Data",
+   "label": "Longitude"
+  },
+  {
+   "fieldname": "case_phase",
+   "fieldtype": "Link",
+   "label": "Case Phase",
+   "options": "Case Phase"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Detail Call Record",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

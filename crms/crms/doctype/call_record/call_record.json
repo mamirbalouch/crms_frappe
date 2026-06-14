@@ -1,0 +1,106 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "working_number",
+  "case_phase",
+  "start_date_record",
+  "end_date_record",
+  "upload_record_date",
+  "section_cdr_details",
+  "cdr_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CDR-.YYYY.-.####"
+  },
+  {
+   "fieldname": "working_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Working Number",
+   "options": "Working Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "case_phase",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Phase",
+   "options": "Case Phase"
+  },
+  {
+   "fieldname": "start_date_record",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date of Record"
+  },
+  {
+   "fieldname": "end_date_record",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date of Record"
+  },
+  {
+   "default": "Today",
+   "fieldname": "upload_record_date",
+   "fieldtype": "Date",
+   "label": "Upload Record Date"
+  },
+  {
+   "fieldname": "section_cdr_details",
+   "fieldtype": "Section Break",
+   "label": "CDR Details"
+  },
+  {
+   "fieldname": "cdr_details",
+   "fieldtype": "Table",
+   "label": "CDR Details",
+   "options": "Detail Call Record"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Call Record",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "working_number",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

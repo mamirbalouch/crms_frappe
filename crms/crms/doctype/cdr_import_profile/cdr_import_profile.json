@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "autoname": "field:profile_name",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "profile_name",
+  "mobile_operator",
+  "header_row",
+  "date_format",
+  "rbs_coord_separator",
+  "column_break_1",
+  "notes",
+  "section_mappings",
+  "column_mappings"
+ ],
+ "fields": [
+  {
+   "fieldname": "profile_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Profile Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "mobile_operator",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Mobile Operator",
+   "options": "Mobile Operator"
+  },
+  {
+   "default": "1",
+   "fieldname": "header_row",
+   "fieldtype": "Int",
+   "label": "Header Row Number",
+   "description": "Row number (1-based) that contains column headers"
+  },
+  {
+   "fieldname": "date_format",
+   "fieldtype": "Data",
+   "label": "Date Format",
+   "description": "Python strptime format, e.g. %Y-%m-%d %H:%M:%S — leave blank to auto-detect"
+  },
+  {
+   "default": "|",
+   "fieldname": "rbs_coord_separator",
+   "fieldtype": "Data",
+   "label": "RBS Coordinate Separator",
+   "description": "Separator used when RBS/location field embeds lat/lon (e.g. | gives CITY|34.21|73.22). Leave blank to disable."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_mappings",
+   "fieldtype": "Section Break",
+   "label": "Column Mappings"
+  },
+  {
+   "fieldname": "column_mappings",
+   "fieldtype": "Table",
+   "label": "Column Mappings",
+   "options": "CDR Profile Column"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "CDR Import Profile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "profile_name,mobile_operator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "profile_name",
+ "track_changes": 1
+}

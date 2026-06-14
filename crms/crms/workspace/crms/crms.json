@@ -1,0 +1,89 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Case Project\",\"col\":3}},{\"id\":\"shortcuts2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Working Number\",\"col\":3}},{\"id\":\"shortcuts3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Call Record\",\"col\":3}},{\"id\":\"shortcuts4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile User Data\",\"col\":3}},{\"id\":\"shortcuts5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Geo Location\",\"col\":3}},{\"id\":\"shortcuts6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Investigation Officer\",\"col\":3}},{\"id\":\"onboarding\",\"type\":\"onboarding\",\"data\":{\"onboarding_name\":\"CRMS\"}},{\"id\":\"spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "is_hidden": 0,
+ "label": "CRMS",
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "CRMS",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Case Project",
+   "link_to": "Case Project",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Working Number",
+   "link_to": "Working Number",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Call Record",
+   "link_to": "Call Record",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Mobile User Data",
+   "link_to": "Mobile User Data",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Geo Location",
+   "link_to": "Geo Location",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Investigation Officer",
+   "link_to": "Investigation Officer",
+   "type": "DocType"
+  },
+  {
+   "label": "Call Detail Record Report",
+   "link_to": "Call Detail Record Report",
+   "type": "Report"
+  },
+  {
+   "label": "Call Frequency Report",
+   "link_to": "Call Frequency Report",
+   "type": "Report"
+  },
+  {
+   "label": "Common Numbers Report",
+   "link_to": "Common Numbers Report",
+   "type": "Report"
+  },
+  {
+   "label": "RBS Wise Report",
+   "link_to": "RBS Wise Report",
+   "type": "Report"
+  },
+  {
+   "label": "Short Call Frequency Report",
+   "link_to": "Short Call Frequency Report",
+   "type": "Report"
+  }
+ ],
+ "title": "CRMS"
+}

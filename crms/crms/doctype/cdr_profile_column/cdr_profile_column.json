@@ -1,0 +1,39 @@
+{
+ "actions": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "source_column",
+  "target_field"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_column",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source Column (in file)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_field",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Maps To",
+   "options": "\nsecond_party_number\ndate_of_communication\nduration\nimei\nrbs\nrbs_with_coords\nlatitude\nlongitude\ncall_type\ncase_phase",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "CDR Profile Column",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

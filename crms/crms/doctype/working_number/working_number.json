@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "working_mobile_number",
+  "case_project",
+  "mobile_operator",
+  "case_phase",
+  "date_of_entry",
+  "column_break_1",
+  "owner_name",
+  "owner_nic_no",
+  "imei",
+  "source",
+  "section_description",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "WN-.YYYY.-.####"
+  },
+  {
+   "fieldname": "working_mobile_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Working Mobile Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "case_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Project",
+   "options": "Case Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_operator",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Mobile Operator",
+   "options": "Mobile Operator",
+   "reqd": 1
+  },
+  {
+   "fieldname": "case_phase",
+   "fieldtype": "Link",
+   "label": "Case Phase",
+   "options": "Case Phase"
+  },
+  {
+   "fieldname": "date_of_entry",
+   "fieldtype": "Date",
+   "label": "Date of Entry"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "owner_name",
+   "fieldtype": "Data",
+   "label": "Owner Name"
+  },
+  {
+   "fieldname": "owner_nic_no",
+   "fieldtype": "Data",
+   "label": "Owner NIC No"
+  },
+  {
+   "fieldname": "imei",
+   "fieldtype": "Data",
+   "label": "IMEI"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "label": "Source"
+  },
+  {
+   "fieldname": "section_description",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  }
+ ],
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Working Number",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "working_mobile_number,owner_name,case_project",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "working_mobile_number",
+ "track_changes": 1
+}
