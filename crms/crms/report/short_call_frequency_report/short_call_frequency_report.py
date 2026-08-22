@@ -10,9 +10,9 @@ def execute(filters=None):
 
 def get_columns():
 	return [
+		{"label": "Working Number", "fieldname": "working_mobile_number", "fieldtype": "Data", "width": 140},
 		{"label": "Second Party Number", "fieldname": "second_party_number", "fieldtype": "Data", "width": 150},
-		{"label": "Working Number", "fieldname": "working_number", "fieldtype": "Link", "options": "Working Number", "width": 140},
-		{"label": "Case Project", "fieldname": "case_project", "fieldtype": "Link", "options": "Case Project", "width": 140},
+		{"label": "Case", "fieldname": "case_title", "fieldtype": "Data", "width": 140},
 		{"label": "Short Calls (≤ threshold)", "fieldname": "short_calls", "fieldtype": "Int", "width": 150},
 		{"label": "Total Calls", "fieldname": "total_calls", "fieldtype": "Int", "width": 100},
 		{"label": "Short Call %", "fieldname": "short_call_pct", "fieldtype": "Percent", "width": 110},
@@ -48,8 +48,8 @@ def get_data(filters):
 		f"""
 		SELECT
 			dcr.second_party_number,
-			cr.working_number,
-			wn.case_project,
+			wn.working_mobile_number,
+			cp.case_title,
 			SUM(CASE WHEN dcr.duration <= %(max_duration)s THEN 1 ELSE 0 END) AS short_calls,
 			COUNT(dcr.name) AS total_calls,
 			ROUND(
@@ -59,8 +59,9 @@ def get_data(filters):
 			`tabDetail Call Record` dcr
 			INNER JOIN `tabCall Record` cr ON dcr.parent = cr.name
 			INNER JOIN `tabWorking Number` wn ON cr.working_number = wn.name
+			LEFT JOIN `tabCase Project` cp ON wn.case_project = cp.name
 		{where_clause}
-		GROUP BY dcr.second_party_number, cr.working_number, wn.case_project
+		GROUP BY dcr.second_party_number, wn.working_mobile_number, cp.case_title
 		HAVING short_calls > 0
 		ORDER BY short_calls DESC
 		""",

@@ -28,7 +28,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "CASE-.YYYY.-.####"
+   "options": "CP.####"
   },
   {
    "fieldname": "case_title",
@@ -154,6 +154,7 @@
   }
  ],
  "search_fields": "case_title,fir_no,police_station",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

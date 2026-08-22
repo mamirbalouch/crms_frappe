@@ -1,16 +1,18 @@
 {
  "actions": [],
  "autoname": "naming_series:",
- "creation": "2025-01-01 00:00:00.000000",
+ "creation": "2025-01-01 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
   "working_number",
+  "working_mobile_number",
   "case_phase",
+  "column_break_jtqc",
   "start_date_record",
-  "end_date_record",
   "upload_record_date",
+  "end_date_record",
   "section_cdr_details",
   "cdr_details"
  ],
@@ -28,6 +30,15 @@
    "label": "Working Number",
    "options": "Working Number",
    "reqd": 1
+  },
+  {
+   "fetch_from": "working_number.owner_name",
+   "fieldname": "working_mobile_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Owner Name",
+   "read_only": 1
   },
   {
    "fieldname": "case_phase",
@@ -64,11 +75,16 @@
    "fieldtype": "Table",
    "label": "CDR Details",
    "options": "Detail Call Record"
+  },
+  {
+   "fieldname": "column_break_jtqc",
+   "fieldtype": "Column Break"
   }
  ],
+ "hide_toolbar": 1,
  "links": [],
- "modified": "2025-01-01 00:00:00.000000",
- "modified_by": "Administrator",
+ "modified": "2026-08-22 23:49:38.990685",
+ "modified_by": "mamirbalouch@gmail.com",
  "module": "CRMS",
  "name": "Call Record",
  "naming_rule": "By \"Naming Series\" field",
@@ -98,9 +114,12 @@
    "write": 1
   }
  ],
- "search_fields": "working_number",
+ "row_format": "Dynamic",
+ "search_fields": "working_mobile_number,working_number",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "working_mobile_number",
  "track_changes": 1
 }

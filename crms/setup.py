@@ -43,8 +43,9 @@ PROFILES = [
             ("CALL_TYPE",     "call_type"),
             ("BNUMBER",       "second_party_number"),
             ("STRT_TM",       "date_of_communication"),
-            ("SECS",          "duration"),         # MINS*60+SECS combined by parser
-            ("CELL_ID",       "rbs"),
+            ("MINS",          "duration_minutes"), # combined with SECS by the parser
+            ("SECS",          "duration"),
+            ("SITE_ADDRESS",  "rbs"),              # human-readable site; CELL_ID is only a cell identifier
             ("IMEI",          "imei"),
             ("LNG",           "longitude"),
             ("LAT",           "latitude"),
@@ -60,8 +61,9 @@ PROFILES = [
             ("CALL_TYPE",     "call_type"),
             ("BNUMBER",       "second_party_number"),
             ("STRT_TM",       "date_of_communication"),
+            ("MINS",          "duration_minutes"), # combined with SECS by the parser
             ("SECS",          "duration"),
-            ("CELL_ID",       "rbs"),
+            ("SITE_ADDRESS",  "rbs"),              # human-readable site; CELL_ID is only a cell identifier
             ("IMEI",          "imei"),
             ("LNG",           "longitude"),
             ("LAT",           "latitude"),
@@ -80,7 +82,7 @@ PROFILES = [
             ("IMEI",                "imei"),
             ("CALL_START_DT_TM",    "date_of_communication"),
             ("Call_Network_Volume", "duration"),
-            ("Cell_Site_Id",        "rbs"),
+            ("Location",            "rbs"),              # site address; Cell_Site_Id is only a cell identifier
             ("LAT",                 "latitude"),
             ("LONGITUDE",           "longitude"),
             ("CALL_TYPE",           "call_type"),
@@ -97,7 +99,7 @@ PROFILES = [
             ("IMEI",                "imei"),
             ("CALL_START_DT_TM",    "date_of_communication"),
             ("Call_Network_Volume", "duration"),
-            ("Cell_SITE_ID",        "rbs"),
+            ("location",            "rbs"),              # site address; Cell_SITE_ID is only a cell identifier
             ("lat",                 "latitude"),
             ("longitude",           "longitude"),
             ("CALL_TYPE",           "call_type"),
@@ -233,7 +235,6 @@ PROFILES = [
             ("Type",       "call_type"),
             ("IMEI",       "imei"),
             ("Location",   "rbs"),
-            ("Cell Id",    "rbs"),        # fallback; Location takes priority
             ("Latitude",   "latitude"),
             ("Longitude",  "longitude"),
         ],
@@ -312,6 +313,7 @@ PROFILES = [
             ("B-Party",     "second_party_number"),
             ("Call Type",   "call_type"),
             ("Date & Time", "date_of_communication"),
+            ("MINS",        "duration_minutes"),
             ("SECS",        "duration"),
             ("IMEI #",      "imei"),
             ("Site",        "rbs_with_coords"),
@@ -327,6 +329,7 @@ PROFILES = [
             ("B-Number",    "second_party_number"),
             ("Call Type",   "call_type"),
             ("Date & Time", "date_of_communication"),
+            ("MINS",        "duration_minutes"),
             ("SECS",        "duration"),
             ("IMEI #",      "imei"),
             ("Location",    "rbs_with_coords"),
@@ -360,15 +363,23 @@ def _seed_call_types():
 
 
 def _seed_profiles():
+    """
+    Ensure every baseline profile exists and matches this file (the source of
+    truth for these named profiles). Existing seed profiles are re-synced so
+    mapping fixes ship on migrate; user-created profiles have other names and
+    are left untouched.
+    """
     for p in PROFILES:
         if frappe.db.exists("CDR Import Profile", p["profile_name"]):
-            continue
-        doc = frappe.new_doc("CDR Import Profile")
-        doc.profile_name = p["profile_name"]
+            doc = frappe.get_doc("CDR Import Profile", p["profile_name"])
+            doc.column_mappings = []
+        else:
+            doc = frappe.new_doc("CDR Import Profile")
+            doc.profile_name = p["profile_name"]
         doc.mobile_operator = p.get("mobile_operator")
         doc.header_row = p.get("header_row", 1)
         doc.rbs_coord_separator = p.get("rbs_coord_separator", "|")
         doc.notes = p.get("notes", "")
         for src, tgt in p.get("column_mappings", []):
             doc.append("column_mappings", {"source_column": src, "target_field": tgt})
-        doc.insert(ignore_permissions=True)
+        doc.save(ignore_permissions=True)

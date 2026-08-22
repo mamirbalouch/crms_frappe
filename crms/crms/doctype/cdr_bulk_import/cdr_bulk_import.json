@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro_html",
+  "case_project",
+  "default_mobile_operator",
+  "column_break_1",
+  "default_case_phase",
+  "section_files",
+  "files_html",
+  "section_results",
+  "results_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro_html",
+   "fieldtype": "HTML",
+   "options": "<p class=\"text-muted\" style=\"margin-bottom:0;\">Select the Case Project, then choose the CDR files. Each file name should be <b>&lt;mobile number&gt; - &lt;description&gt;</b>, e.g. <code>923322290119 - rm gv - new case</code>. For every file the tool creates/reuses the Working Number, creates a Call Record, auto-detects the format and header row, and imports the rows.</p>"
+  },
+  {
+   "fieldname": "case_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Case Project",
+   "options": "Case Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_mobile_operator",
+   "fieldtype": "Link",
+   "label": "Default Mobile Operator",
+   "options": "Mobile Operator",
+   "description": "Used only when the operator can't be detected from the file's format."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_case_phase",
+   "fieldtype": "Link",
+   "label": "Default Case Phase",
+   "options": "Case Phase",
+   "description": "Optional. Falls back to the Case Project's phase when left blank."
+  },
+  {
+   "fieldname": "section_files",
+   "fieldtype": "Section Break",
+   "label": "Files"
+  },
+  {
+   "fieldname": "files_html",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "section_results",
+   "fieldtype": "Section Break",
+   "label": "Results"
+  },
+  {
+   "fieldname": "results_html",
+   "fieldtype": "HTML"
+  }
+ ],
+ "hide_toolbar": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "CDR Bulk Import",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CRMS User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

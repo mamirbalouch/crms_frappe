@@ -21,7 +21,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Maps To",
-   "options": "\nsecond_party_number\ndate_of_communication\nduration\nimei\nrbs\nrbs_with_coords\nlatitude\nlongitude\ncall_type\ncase_phase",
+   "options": "\nsecond_party_number\ndate_of_communication\nduration\nduration_minutes\nimei\nrbs\nrbs_with_coords\nlatitude\nlongitude\ncall_type\ncase_phase",
    "reqd": 1
   }
  ],

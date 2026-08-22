@@ -10,9 +10,8 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"label": "CDR#", "fieldname": "call_record", "fieldtype": "Link", "options": "Call Record", "width": 120},
-		{"label": "Working Number", "fieldname": "working_number", "fieldtype": "Link", "options": "Working Number", "width": 140},
-		{"label": "Case Project", "fieldname": "case_project", "fieldtype": "Link", "options": "Case Project", "width": 140},
+		{"label": "Working Number", "fieldname": "working_mobile_number", "fieldtype": "Data", "width": 140},
+		{"label": "Case", "fieldname": "case_title", "fieldtype": "Data", "width": 140},
 		{"label": "Second Party", "fieldname": "second_party_number", "fieldtype": "Data", "width": 130},
 		{"label": "Call Type", "fieldname": "call_type", "fieldtype": "Link", "options": "Call Type", "width": 100},
 		{"label": "Date & Time", "fieldname": "date_of_communication", "fieldtype": "Datetime", "width": 150},
@@ -54,9 +53,8 @@ def get_data(filters):
 	return frappe.db.sql(
 		f"""
 		SELECT
-			cr.name AS call_record,
-			cr.working_number,
-			wn.case_project,
+			wn.working_mobile_number,
+			cp.case_title,
 			dcr.second_party_number,
 			dcr.call_type,
 			dcr.date_of_communication,
@@ -70,6 +68,7 @@ def get_data(filters):
 			`tabDetail Call Record` dcr
 			INNER JOIN `tabCall Record` cr ON dcr.parent = cr.name
 			INNER JOIN `tabWorking Number` wn ON cr.working_number = wn.name
+			LEFT JOIN `tabCase Project` cp ON wn.case_project = cp.name
 		{where_clause}
 		ORDER BY dcr.date_of_communication DESC
 		""",

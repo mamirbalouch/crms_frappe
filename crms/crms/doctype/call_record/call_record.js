@@ -2,7 +2,8 @@
 const CDR_FIELDS = {
 	second_party_number: "Second Party Number",
 	date_of_communication: "Date of Communication",
-	duration: "Duration",
+	duration: "Duration (seconds)",
+	duration_minutes: "Duration (minutes — added to seconds)",
 	imei: "IMEI",
 	rbs: "RBS / Site Name",
 	rbs_with_coords: "RBS + Coordinates (auto-extract lat/lon)",
@@ -93,6 +94,7 @@ function show_import_step1(frm) {
 					detected_profile: detected.profile,
 					detected_operator: detected.operator,
 					detected_score: detected.score,
+					detected_mapping: detected.mapping || {},
 				});
 			} catch (err) {
 				set_status("red", __("Error: ") + (err.message || String(err)));
@@ -119,27 +121,17 @@ function show_import_step2(frm, ctx) {
 	// current mapping: source_column → target_field
 	let mapping = {};
 
-	// Pre-fill from detected profile if any
-	let profile_promise = detected_profile
-		? frappe.db
-			.get_list("CDR Profile Column", {
-				filters: { parent: detected_profile },
-				fields: ["source_column", "target_field"],
-				limit: 100,
-			})
-			.then((rows) => {
-				rows.forEach((r) => (mapping[r.source_column] = r.target_field));
-			})
-		: Promise.resolve();
+	// Pre-fill from the detected profile's mapping (resolved server-side in
+	// detect_profile — the browser must not query the CDR Profile Column child
+	// table directly, it has no read permission on it).
+	Object.assign(mapping, ctx.detected_mapping || {});
 
-	profile_promise.then(() => {
-		// Also apply common auto-aliases for unmapped headers
-		headers.forEach((h) => {
-			if (!mapping[h]) mapping[h] = guess_field(h);
-		});
-
-		render_step2(frm, ctx, mapping);
+	// Also apply common auto-aliases for unmapped headers
+	headers.forEach((h) => {
+		if (!mapping[h]) mapping[h] = guess_field(h);
 	});
+
+	render_step2(frm, ctx, mapping);
 }
 
 function render_step2(frm, ctx, mapping) {

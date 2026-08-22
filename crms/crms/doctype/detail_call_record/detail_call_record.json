@@ -1,6 +1,6 @@
 {
  "actions": [],
- "creation": "2025-01-01 00:00:00.000000",
+ "creation": "2025-01-01 00:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -18,6 +18,7 @@
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "second_party_number",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -25,6 +26,7 @@
    "reqd": 1
   },
   {
+   "columns": 1,
    "fieldname": "call_type",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -32,12 +34,14 @@
    "options": "Call Type"
   },
   {
+   "columns": 1,
    "fieldname": "date_of_communication",
    "fieldtype": "Datetime",
    "in_list_view": 1,
    "label": "Date of Communication"
   },
   {
+   "columns": 1,
    "fieldname": "duration",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -48,23 +52,32 @@
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "imei",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "IMEI"
   },
   {
+   "columns": 2,
    "fieldname": "rbs",
    "fieldtype": "Data",
-   "label": "RBS (Cell Tower)"
+   "in_list_view": 1,
+   "label": "RBS (Site / Location)",
+   "length": 500
   },
   {
+   "columns": 1,
    "fieldname": "latitude",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Latitude"
   },
   {
+   "columns": 1,
    "fieldname": "longitude",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Longitude"
   },
   {
@@ -76,12 +89,13 @@
  ],
  "istable": 1,
  "links": [],
- "modified": "2025-01-01 00:00:00.000000",
- "modified_by": "Administrator",
+ "modified": "2026-08-22 23:50:47.148495",
+ "modified_by": "mamirbalouch@gmail.com",
  "module": "CRMS",
  "name": "Detail Call Record",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

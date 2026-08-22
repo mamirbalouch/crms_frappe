@@ -83,7 +83,11 @@ app_license = "mit"
 # ------------
 
 # before_install = "crms.install.before_install"
-# after_install = "crms.install.after_install"
+after_install = "crms.setup.seed_initial_data"
+
+# Keep baseline master data (operators, call types, CDR import profiles) in sync
+# on every migrate. Idempotent — safe to run repeatedly.
+after_migrate = "crms.setup.seed_initial_data"
 
 # Uninstallation
 # ------------

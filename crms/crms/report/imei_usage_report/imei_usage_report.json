@@ -1,0 +1,22 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-08-22 20:00:00.000000",
+ "disabled": 0,
+ "doctype": "Report",
+ "filters": [],
+ "is_standard": "Yes",
+ "modified": "2026-08-22 20:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "IMEI Usage Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Call Record",
+ "report_name": "IMEI Usage Report",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "CRMS User"}
+ ]
+}
