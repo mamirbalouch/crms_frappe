@@ -1,12 +1,12 @@
 {
  "charts": [],
- "content": "[{\"id\":\"shortcuts3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Call Record\",\"col\":3}},{\"id\":\"shortcuts7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Bulk Import\",\"col\":3}},{\"id\":\"shortcuts8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Movement Map\",\"col\":3}},{\"id\":\"shortcuts10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Common Numbers Network\",\"col\":3}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Case Project\",\"col\":3}},{\"id\":\"shortcuts2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Working Number\",\"col\":3}},{\"id\":\"shortcuts4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile User Data\",\"col\":3}},{\"id\":\"shortcuts5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Geo Location\",\"col\":3}},{\"id\":\"shortcuts6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Investigation Officer\",\"col\":3}},{\"id\":\"shortcuts9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Import Profile\",\"col\":3}},{\"id\":\"reportheader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports &amp; Analysis</b></span>\",\"col\":12}},{\"id\":\"reportcard\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports & Analysis\",\"col\":4}},{\"id\":\"onboarding\",\"type\":\"onboarding\",\"data\":{\"onboarding_name\":\"CRMS\"}},{\"id\":\"spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "content": "[{\"id\":\"shortcuts3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Call Record\",\"col\":3}},{\"id\":\"shortcuts7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Bulk Import\",\"col\":3}},{\"id\":\"shortcuts8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Movement Map\",\"col\":3}},{\"id\":\"shortcuts10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Common Numbers Network\",\"col\":3}},{\"id\":\"shortcuts11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Report Pack\",\"col\":3}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Case Project\",\"col\":3}},{\"id\":\"shortcuts2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Working Number\",\"col\":3}},{\"id\":\"shortcuts4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile User Data\",\"col\":3}},{\"id\":\"shortcuts5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Geo Location\",\"col\":3}},{\"id\":\"shortcuts6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Investigation Officer\",\"col\":3}},{\"id\":\"shortcuts9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Import Profile\",\"col\":3}},{\"id\":\"reportheader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports &amp; Analysis</b></span>\",\"col\":12}},{\"id\":\"reportcard\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports & Analysis\",\"col\":4}},{\"id\":\"onboarding\",\"type\":\"onboarding\",\"data\":{\"onboarding_name\":\"CRMS\"}},{\"id\":\"spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
  "creation": "2025-01-01 00:00:00.000000",
  "doctype": "Workspace",
  "hide_custom": 0,
  "is_hidden": 0,
  "label": "CRMS",
- "modified": "2026-08-22 23:00:00.000000",
+ "modified": "2026-08-23 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "CRMS",
  "name": "CRMS",
@@ -54,6 +54,12 @@
    "color": "Red",
    "label": "Common Numbers Network",
    "link_to": "common-numbers-network",
+   "type": "Page"
+  },
+  {
+   "color": "Green",
+   "label": "CDR Report Pack",
+   "link_to": "cdr-report-pack",
    "type": "Page"
   },
   {
@@ -115,7 +121,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports & Analysis",
-   "link_count": 13,
+   "link_count": 14,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -232,6 +238,15 @@
    "is_query_report": 0,
    "label": "Common Numbers Network",
    "link_to": "common-numbers-network",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "CDR Report Pack",
+   "link_to": "cdr-report-pack",
    "link_type": "Page",
    "onboard": 0,
    "type": "Link"

@@ -33,4 +33,13 @@ frappe.query_reports["Call Detail Record Report"] = {
 			options: "Call Type",
 		},
 	],
+	onload(report) {
+		report.page.add_inner_button(__("Download PDF"), () => {
+			frappe.call({
+				method: "crms.crms.api.report_pdf.render_report_pdf",
+				args: { report: "CDR", filters: JSON.stringify(report.get_values()) },
+				freeze: true, freeze_message: __("Generating PDF…"),
+			}).then((r) => { if (r.message) window.open(r.message, "_blank"); });
+		});
+	},
 };

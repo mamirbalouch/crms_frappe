@@ -43,6 +43,42 @@ def export_network_pdf(svg, width=None, height=None, filename="Common Numbers Ne
 
 
 @frappe.whitelist()
+def export_network_image_pdf(image, width=None, height=None, filename="Common Numbers Network"):
+	"""
+	Render a graph raster (PNG data URL from Cytoscape) to a single-page PDF whose
+	page size matches the image — no fixed page limit, colours preserved.
+	"""
+	from frappe.utils.pdf import get_pdf
+
+	try:
+		w = float(width)
+		h = float(height)
+	except (TypeError, ValueError):
+		w, h = 1600.0, 1200.0
+	w_mm = round(w / 96.0 * 25.4, 1)
+	h_mm = round(h / 96.0 * 25.4, 1)
+
+	html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+	@page {{ size: {w_mm}mm {h_mm}mm; margin: 0; }}
+	html, body {{ margin: 0; padding: 0; }}
+	img {{ width: {w_mm}mm; height: {h_mm}mm; display: block; }}
+	</style></head><body><img src="{image}"></body></html>"""
+
+	options = {
+		"page-width": f"{w_mm}mm", "page-height": f"{h_mm}mm",
+		"margin-top": "0", "margin-bottom": "0", "margin-left": "0", "margin-right": "0",
+		"disable-smart-shrinking": "", "enable-local-file-access": "",
+	}
+	pdf = get_pdf(html, options=options)
+
+	safe = "".join(c for c in str(filename) if c.isalnum() or c in " -_") or "network"
+	_file = frappe.get_doc({
+		"doctype": "File", "file_name": f"{safe}.pdf", "is_private": 1, "content": pdf,
+	}).insert(ignore_permissions=True)
+	return _file.file_url
+
+
+@frappe.whitelist()
 def get_common_number_network(case_project=None, working_number=None, from_date=None, to_date=None,
                               min_digits=10, max_digits=14, only_cross_case=0, max_nodes=60):
 	"""

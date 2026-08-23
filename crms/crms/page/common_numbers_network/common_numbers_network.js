@@ -1,30 +1,83 @@
-// Case-project palette (red is reserved for cross-case bridges, grey for common numbers)
-const CNN_PALETTE = ["#1565c0", "#2e7d32", "#6a1b9a", "#00838f", "#ef6c00", "#4527a0", "#ad1457", "#558b2f", "#0277bd", "#8d6e63"];
-let CNN_STATE = null; // { svg, nodes } for export
+// Case-project palette (red reserved for cross-case bridges, grey for common numbers)
+const CNN_PALETTE = ["#2563eb", "#0d9488", "#d97706", "#7c3aed", "#0369a1", "#be185d", "#4d7c0f", "#b45309"];
+
+// Frappe's desk locks Array.prototype.move (read-only + non-configurable), which
+// makes Cytoscape throw when it loads in the main page. So the whole graph runs
+// inside a same-origin iframe (a fresh realm with a clean Array.prototype). Data
+// is passed in as JSON and parsed inside the iframe to keep arrays in-realm.
+const CNN_IFRAME_HTML = [
+"<!doctype html><html><head><meta charset='utf-8'><style>",
+"html,body{margin:0;height:100%}",
+"#cy{position:absolute;inset:0}",
+"#readout{position:absolute;right:14px;top:14px;max-width:230px;background:#fff;border:1px solid #d1d8dd;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.12);padding:12px 14px;font-family:sans-serif;font-size:12px;display:none;z-index:5}",
+"#readout .num{font-family:monospace;font-size:15px;font-weight:600}",
+"#readout .meta{color:#7c8a9c;margin-top:3px;line-height:1.5}",
+"#readout .tag{display:inline-block;margin-top:8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:999px}",
+"</style></head><body>",
+"<div id='cy'></div><div id='readout'></div>",
+"<script src='/assets/crms/js/cytoscape.min.js'></script>",
+"<script>",
+"var CNN={ready:false,cy:null};",
+"var MONO='monospace';",
+"CNN.render=function(dataJson,caseColorJson){",
+"  var data=JSON.parse(dataJson), caseColor=JSON.parse(caseColorJson);",
+"  var els=[];",
+"  Object.keys(caseColor).forEach(function(cs){els.push({data:{id:'case:'+cs,type:'case',label:(cs||'').toUpperCase(),color:caseColor[cs]}});});",
+"  data.nodes.forEach(function(n){",
+"    if(n.type==='working'){els.push({data:{id:n.id,type:'wn',parent:n.case?'case:'+n.case:undefined,color:caseColor[n.case]||'#2563eb',num:n.label,owner:n.owner||'',cs:n.case||'',label:n.label+(n.owner?'\\n'+n.owner:'')}});}",
+"    else{els.push({data:{id:n.id,type:n.cross_case?'bridge':'common',num:n.label,label:n.label}});}",
+"  });",
+"  data.edges.forEach(function(e,i){els.push({data:{id:'e'+i,source:e.source,target:e.target,cross:e.cross_case?1:0}});});",
+"  if(CNN.cy)CNN.cy.destroy();",
+"  CNN.cy=cytoscape({container:document.getElementById('cy'),elements:els,wheelSensitivity:0.25,style:[",
+"    {selector:'node[type=\"case\"]',style:{'shape':'round-rectangle','background-color':'data(color)','background-opacity':0.05,'border-width':1.4,'border-color':'data(color)','border-opacity':0.55,'border-style':'dashed','label':'data(label)','text-valign':'top','text-halign':'center','font-size':12,'font-weight':600,'color':'data(color)','padding':30,'text-margin-y':-6}},",
+"    {selector:'node[type=\"wn\"]',style:{'background-color':'data(color)','width':42,'height':42,'border-width':3,'border-color':'#fff','label':'data(label)','font-family':MONO,'font-size':10,'color':'#1d2733','text-wrap':'wrap','text-max-width':96,'text-valign':'bottom','text-margin-y':5,'line-height':1.35}},",
+"    {selector:'node[type=\"common\"]',style:{'background-color':'#94a3b8','width':15,'height':15,'border-width':2,'border-color':'#fff','label':'data(label)','font-family':MONO,'font-size':8.5,'color':'#7c8a9c','text-valign':'bottom','text-margin-y':3}},",
+"    {selector:'node[type=\"bridge\"]',style:{'background-color':'#dc2626','width':28,'height':28,'border-width':3,'border-color':'#fff','label':'data(label)','font-family':MONO,'font-size':10,'font-weight':600,'color':'#dc2626','text-valign':'bottom','text-margin-y':4}},",
+"    {selector:'edge',style:{'width':1.5,'line-color':'#c6cfdb','curve-style':'bezier','opacity':0.85}},",
+"    {selector:'edge[cross=1]',style:{'width':2.6,'line-color':'#dc2626','opacity':0.9}},",
+"    {selector:'.faded',style:{'opacity':0.1,'text-opacity':0.1}},",
+"    {selector:'node.pick',style:{'border-color':'#1d2733','border-width':3}}",
+"  ]});",
+"  CNN.relayout();",
+"  var ro=document.getElementById('readout');",
+"  CNN.cy.on('tap','node',function(e){var n=e.target;if(n.data('type')==='case')return;",
+"    CNN.cy.elements().addClass('faded');n.closedNeighborhood().removeClass('faded');CNN.cy.nodes().removeClass('pick');n.addClass('pick');",
+"    var t=n.data('type');var col=t==='bridge'?'#dc2626':(t==='wn'?(caseColor[n.data('cs')]||n.data('color')):'#94a3b8');",
+"    var tag=t==='bridge'?'Cross-case bridge':(t==='wn'?'Working number':'Common number');var deg=n.connectedEdges().length;",
+"    ro.innerHTML='<div class=\"num\">'+n.data('num')+'</div><div class=\"meta\">'+(n.data('owner')?n.data('owner')+'<br>':'')+deg+' links</div><span class=\"tag\" style=\"color:'+col+';background:'+col+'1a\">'+tag+'</span>';ro.style.display='block';});",
+"  CNN.cy.on('tap',function(e){if(e.target===CNN.cy){CNN.cy.elements().removeClass('faded');CNN.cy.nodes().removeClass('pick');ro.style.display='none';}});",
+"};",
+"CNN.relayout=function(){if(!CNN.cy)return;CNN.cy.layout({name:'cose',animate:false,padding:36,nodeRepulsion:9000,idealEdgeLength:78,edgeElasticity:120,nestingFactor:1.15,gravity:0.5,componentSpacing:140,randomize:true,fit:true}).run();var c=CNN.cy;[0,150,500,1200].forEach(function(t){setTimeout(function(){if(CNN.cy){c.resize();c.fit(undefined,40);}},t);});};",
+"CNN.fit=function(){if(CNN.cy)CNN.cy.fit(undefined,40);};",
+"CNN.png=function(){return CNN.cy?CNN.cy.png({full:true,scale:2,bg:'#ffffff'}):null;};",
+"CNN.bbox=function(){if(!CNN.cy)return null;var b=CNN.cy.elements().boundingBox();return {w:b.w,h:b.h};};",
+"window.CNN=CNN;CNN.ready=(typeof cytoscape==='function');",
+"</script></body></html>"
+].join("");
 
 frappe.pages["common-numbers-network"].on_page_load = function (wrapper) {
-	let page = frappe.ui.make_app_page({
-		parent: wrapper,
-		title: __("Common Numbers Network"),
-		single_column: true,
-	});
-
+	let page = frappe.ui.make_app_page({ parent: wrapper, title: __("Common Numbers Network"), single_column: true });
 	let $body = $(page.body);
 	$body.html(`
 		<div class="cnn-filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px;">
-			<div class="ff ff-case" style="min-width:170px;"></div>
-			<div class="ff ff-wn" style="min-width:170px;"></div>
-			<div class="ff ff-from" style="min-width:155px;"></div>
-			<div class="ff ff-to" style="min-width:155px;"></div>
-			<div class="ff ff-min" style="min-width:75px;"></div>
-			<div class="ff ff-max" style="min-width:75px;"></div>
+			<div class="ff ff-case" style="min-width:180px;"></div>
+			<div class="ff ff-wn" style="min-width:180px;"></div>
+			<div class="ff ff-from" style="min-width:160px;"></div>
+			<div class="ff ff-to" style="min-width:160px;"></div>
+			<div class="ff ff-min" style="min-width:80px;"></div>
+			<div class="ff ff-max" style="min-width:80px;"></div>
 			<div class="ff ff-cross" style="min-width:140px;"></div>
 			<div><button class="btn btn-primary btn-sm" id="cnn_show">${__("Show Network")}</button></div>
+			<div><button class="btn btn-default btn-sm" id="cnn_fit">${__("Fit")}</button></div>
+			<div><button class="btn btn-default btn-sm" id="cnn_relayout">${__("Re-run")}</button></div>
 			<div><button class="btn btn-default btn-sm" id="cnn_export" disabled>${__("Export PDF")}</button></div>
 		</div>
 		<div id="cnn_status" class="text-muted" style="margin:6px 0;"></div>
-		<div id="cnn_legend" style="margin-bottom:6px;font-size:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;"></div>
-		<div id="cnn_wrap" style="height:72vh;width:100%;border:1px solid var(--border-color,#d1d8dd);border-radius:6px;overflow:hidden;background:var(--card-bg,#fff);"></div>
+		<div id="cnn_legend" style="margin-bottom:6px;font-size:12px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;"></div>
+		<div id="cnn_wrap" style="position:relative;height:72vh;width:100%;border:1px solid var(--border-color,#d1d8dd);border-radius:6px;overflow:hidden;background:#fbfcff;">
+			<iframe id="cnn_frame" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#fbfcff;"></iframe>
+		</div>
 	`);
 
 	function mk(sel, df) {
@@ -45,8 +98,11 @@ frappe.pages["common-numbers-network"].on_page_load = function (wrapper) {
 	f_min.set_value(10);
 	f_max.set_value(14);
 
+	// Prime the iframe now so the first click is fast
+	ensure_frame();
+
 	$body.find("#cnn_show").on("click", () => {
-		load_network(page, {
+		load_network({
 			case_project: f_case.get_value(),
 			working_number: f_wn.get_value(),
 			from_date: f_from.get_value(),
@@ -56,17 +112,44 @@ frappe.pages["common-numbers-network"].on_page_load = function (wrapper) {
 			only_cross_case: f_cross.get_value() ? 1 : 0,
 		});
 	});
+	$body.find("#cnn_fit").on("click", () => { let c = frame_cnn(); if (c) c.fit(); });
+	$body.find("#cnn_relayout").on("click", () => { let c = frame_cnn(); if (c) c.relayout(); });
 	$body.find("#cnn_export").on("click", () => export_pdf());
 };
+
+function frame_cnn() {
+	let f = document.getElementById("cnn_frame");
+	return f && f.contentWindow && f.contentWindow.CNN && f.contentWindow.CNN.ready ? f.contentWindow.CNN : null;
+}
+
+async function ensure_frame() {
+	let f = document.getElementById("cnn_frame");
+	if (!f) return null;
+	if (f.contentWindow && f.contentWindow.CNN && f.contentWindow.CNN.ready) return f;
+	await new Promise((res) => {
+		f.addEventListener("load", res, { once: true });
+		f.srcdoc = CNN_IFRAME_HTML;
+	});
+	for (let i = 0; i < 160 && !(f.contentWindow.CNN && f.contentWindow.CNN.ready); i++) {
+		await new Promise((r) => setTimeout(r, 50));
+	}
+	return f;
+}
 
 function cnn_status(msg, color) {
 	let el = document.getElementById("cnn_status");
 	if (el) el.innerHTML = color ? `<span class="text-${color}">${msg}</span>` : msg;
 }
 
-async function load_network(page, args) {
+async function load_network(args) {
 	cnn_status(__("Loading…"), "blue");
 	document.getElementById("cnn_export").disabled = true;
+	await ensure_frame();
+	let cnn = frame_cnn();
+	if (!cnn) {
+		cnn_status(__("Graph engine failed to start. Try a hard refresh (Ctrl+Shift+R)."), "red");
+		return;
+	}
 	let data;
 	try {
 		data = await frappe.xcall("crms.crms.api.cdr_map.get_common_number_network", args);
@@ -75,281 +158,57 @@ async function load_network(page, args) {
 		return;
 	}
 	if (!data.nodes.length) {
-		document.getElementById("cnn_wrap").innerHTML = "";
 		document.getElementById("cnn_legend").innerHTML = "";
 		cnn_status(__("No shared numbers found for this selection."), "orange");
 		return;
 	}
-	let bridges = data.nodes.filter((n) => n.type === "common" && n.cross_case).length;
-	cnn_status(
-		__("{0} numbers, {1} links, {2} cross-case bridge(s) in red.", [data.nodes.length, data.edges.length, bridges]),
-		"green"
-	);
-	render_force_graph(document.getElementById("cnn_wrap"), data);
-	document.getElementById("cnn_export").disabled = false;
-}
 
-function render_force_graph(container, data) {
-	const W = container.clientWidth || 900;
-	const H = container.clientHeight || 600;
-	const SVGNS = "http://www.w3.org/2000/svg";
-	container.innerHTML = "";
-
-	// Assign a colour per case project
+	// Colours + legend + stats (computed here; render happens inside the iframe)
 	const caseColor = {};
-	let ci = 0;
+	let ci = 0, wns = 0, commons = 0, bridges = 0;
 	data.nodes.forEach((n) => {
-		if (n.type === "working" && n.case && !(n.case in caseColor)) {
-			caseColor[n.case] = CNN_PALETTE[ci % CNN_PALETTE.length];
-			ci++;
-		}
+		if (n.type === "working") {
+			wns++;
+			if (n.case && !(n.case in caseColor)) { caseColor[n.case] = CNN_PALETTE[ci % CNN_PALETTE.length]; ci++; }
+		} else { commons++; if (n.cross_case) bridges++; }
 	});
 	render_legend(caseColor);
+	cnn_status(__("{0} working numbers · {1} common numbers · {2} cross-case bridge(s) · {3} links",
+		[wns, commons, bridges, data.edges.length]), "green");
 
-	const idx = {};
-	const nodes = data.nodes.map((n, i) => {
-		idx[n.id] = i;
-		return { ...n, x: W / 2 + (Math.random() - 0.5) * W * 0.7, y: H / 2 + (Math.random() - 0.5) * H * 0.7, vx: 0, vy: 0 };
-	});
-	const edges = data.edges.map((e) => ({ s: idx[e.source], t: idx[e.target], w: e.weight, cross: e.cross_case }));
-
-	const k = Math.sqrt((W * H) / Math.max(nodes.length, 1)) * 0.9;
-	for (let iter = 0; iter < 420; iter++) {
-		const alpha = 1 - iter / 420;
-		for (let i = 0; i < nodes.length; i++) {
-			for (let j = i + 1; j < nodes.length; j++) {
-				let dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-				let d2 = dx * dx + dy * dy + 0.01;
-				let f = (k * k) / d2, d = Math.sqrt(d2);
-				let fx = (dx / d) * f, fy = (dy / d) * f;
-				nodes[i].vx += fx; nodes[i].vy += fy; nodes[j].vx -= fx; nodes[j].vy -= fy;
-			}
-		}
-		for (const e of edges) {
-			let a = nodes[e.s], b = nodes[e.t];
-			let dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01;
-			let f = (d - k) * 0.1, fx = (dx / d) * f, fy = (dy / d) * f;
-			a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
-		}
-		// Clustering: pull each working node toward its case-project centroid → sections
-		let cen = {};
-		nodes.forEach((n) => {
-			if (n.type === "working" && n.case) {
-				(cen[n.case] = cen[n.case] || { x: 0, y: 0, n: 0 });
-				cen[n.case].x += n.x; cen[n.case].y += n.y; cen[n.case].n++;
-			}
-		});
-		Object.values(cen).forEach((c) => { c.x /= c.n; c.y /= c.n; });
-		for (const n of nodes) {
-			if (n.type === "working" && n.case && cen[n.case]) {
-				n.vx += (cen[n.case].x - n.x) * 0.05; n.vy += (cen[n.case].y - n.y) * 0.05;
-			}
-			n.vx += (W / 2 - n.x) * 0.004; n.vy += (H / 2 - n.y) * 0.004;
-			n.x += n.vx * alpha * 0.5; n.y += n.vy * alpha * 0.5;
-			n.vx *= 0.85; n.vy *= 0.85;
-		}
+	try {
+		cnn.render(JSON.stringify(data), JSON.stringify(caseColor));
+		document.getElementById("cnn_export").disabled = false;
+	} catch (e) {
+		cnn_status(__("Graph render failed: ") + (e.message || String(e)), "red");
 	}
-
-	const svg = document.createElementNS(SVGNS, "svg");
-	svg.setAttribute("width", "100%"); svg.setAttribute("height", "100%");
-	svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-	svg.style.cursor = "grab";
-	const viewport = document.createElementNS(SVGNS, "g");
-	svg.appendChild(viewport);
-
-	// Case-project "sections" behind everything
-	draw_sections(viewport, nodes, caseColor, SVGNS);
-
-	// Edges (cross-case on top, in red)
-	const order = [...edges.keys()].sort((a, b) => (edges[a].cross ? 1 : 0) - (edges[b].cross ? 1 : 0));
-	const lineByEdge = {};
-	for (const ei of order) {
-		const e = edges[ei];
-		let line = document.createElementNS(SVGNS, "line");
-		line.setAttribute("x1", nodes[e.s].x); line.setAttribute("y1", nodes[e.s].y);
-		line.setAttribute("x2", nodes[e.t].x); line.setAttribute("y2", nodes[e.t].y);
-		line.setAttribute("stroke", e.cross ? "#c62828" : "#c0c8d0");
-		line.setAttribute("stroke-width", e.cross ? Math.min(2 + Math.log(e.w + 1), 5) : Math.min(1 + Math.log(e.w + 1), 4));
-		line.setAttribute("stroke-opacity", e.cross ? 0.85 : 0.5);
-		viewport.appendChild(line);
-		lineByEdge[ei] = line;
-	}
-
-	nodes.forEach((n) => {
-		let g = document.createElementNS(SVGNS, "g");
-		let isW = n.type === "working";
-		let isBridge = !isW && n.cross_case;
-		let r = isW ? 10 : isBridge ? 7 : 4;
-		let fill = isW ? (caseColor[n.case] || "#1565c0") : isBridge ? "#c62828" : "#9e9e9e";
-		let c = document.createElementNS(SVGNS, "circle");
-		c.setAttribute("cx", n.x); c.setAttribute("cy", n.y); c.setAttribute("r", r);
-		c.setAttribute("fill", fill); c.setAttribute("stroke", "#fff"); c.setAttribute("stroke-width", 1.5);
-		let title = document.createElementNS(SVGNS, "title");
-		title.textContent = isW
-			? `${n.label}${n.owner ? " — " + n.owner : ""}${n.case ? " (" + n.case + ")" : ""}`
-			: n.label + (isBridge ? " — cross-case" : "");
-		c.appendChild(title);
-		g.appendChild(c);
-
-		let label = null, sub = null;
-		if (isW || isBridge) {
-			label = document.createElementNS(SVGNS, "text");
-			label.setAttribute("x", n.x); label.setAttribute("y", n.y - (isW ? 14 : 11));
-			label.setAttribute("text-anchor", "middle");
-			label.setAttribute("font-size", isW ? "11" : "10");
-			label.setAttribute("font-weight", "600");
-			label.setAttribute("fill", isBridge ? "#c62828" : "#333333");
-			label.textContent = n.label;
-			g.appendChild(label);
-		}
-		if (isW && n.owner) {
-			sub = document.createElementNS(SVGNS, "text");
-			sub.setAttribute("x", n.x); sub.setAttribute("y", n.y + 21);
-			sub.setAttribute("text-anchor", "middle"); sub.setAttribute("font-size", "9");
-			sub.setAttribute("fill", "#888888");
-			sub.textContent = n.owner.length > 22 ? n.owner.slice(0, 22) + "…" : n.owner;
-			g.appendChild(sub);
-		}
-		enable_node_drag(g, c, label, sub, n, nodes, edges, lineByEdge, viewport);
-		viewport.appendChild(g);
-	});
-
-	container.appendChild(svg);
-	setup_zoom_pan(svg, viewport);
-	CNN_STATE = { svg: svg, viewport: viewport };
 }
 
 function render_legend(caseColor) {
 	let el = document.getElementById("cnn_legend");
 	if (!el) return;
 	let parts = [
-		`<span><span style="color:#c62828;">●</span> ${__("Cross-case bridge")}</span>`,
-		`<span><span style="color:#9e9e9e;">●</span> ${__("Common number")}</span>`,
+		`<span><span style="color:#dc2626;">●</span> ${__("Cross-case bridge")}</span>`,
+		`<span><span style="color:#94a3b8;">●</span> ${__("Common number")}</span>`,
 	];
-	Object.entries(caseColor).forEach(([caseName, color]) => {
-		parts.push(`<span><span style="color:${color};">●</span> ${frappe.utils.escape_html(caseName)}</span>`);
+	Object.entries(caseColor).forEach(([name, color]) => {
+		parts.push(`<span><span style="color:${color};">●</span> ${frappe.utils.escape_html(name)}</span>`);
 	});
-	parts.push(`<span class="text-muted">${__("scroll = zoom · drag background = pan · drag node = move")}</span>`);
+	parts.push(`<span class="text-muted">${__("click node = isolate · scroll = zoom · drag = move")}</span>`);
 	el.innerHTML = parts.join("");
 }
 
-function draw_sections(viewport, nodes, caseColor, SVGNS) {
-	const byCase = {};
-	nodes.forEach((n) => { if (n.type === "working" && n.case) (byCase[n.case] = byCase[n.case] || []).push(n); });
-	Object.entries(byCase).forEach(([caseName, pts]) => {
-		const color = caseColor[caseName] || "#1565c0";
-		const cx = pts.reduce((s, p) => s + p.x, 0) / pts.length;
-		const cy = pts.reduce((s, p) => s + p.y, 0) / pts.length;
-		let shape;
-		if (pts.length >= 3) {
-			let hull = pad_hull(convex_hull(pts), { x: cx, y: cy }, 42);
-			shape = document.createElementNS(SVGNS, "polygon");
-			shape.setAttribute("points", hull.map((p) => `${p.x},${p.y}`).join(" "));
-		} else {
-			let maxd = Math.max(...pts.map((p) => Math.hypot(p.x - cx, p.y - cy)), 0);
-			shape = document.createElementNS(SVGNS, "circle");
-			shape.setAttribute("cx", cx); shape.setAttribute("cy", cy); shape.setAttribute("r", maxd + 55);
-		}
-		shape.setAttribute("fill", color); shape.setAttribute("fill-opacity", "0.07");
-		shape.setAttribute("stroke", color); shape.setAttribute("stroke-opacity", "0.45");
-		shape.setAttribute("stroke-width", "1.5"); shape.setAttribute("stroke-dasharray", "6 4");
-		viewport.appendChild(shape);
-
-		const minY = Math.min(...pts.map((p) => p.y));
-		let t = document.createElementNS(SVGNS, "text");
-		t.setAttribute("x", cx); t.setAttribute("y", minY - (pts.length >= 3 ? 48 : 62));
-		t.setAttribute("text-anchor", "middle"); t.setAttribute("font-size", "13"); t.setAttribute("font-weight", "700");
-		t.setAttribute("fill", color);
-		t.textContent = caseName;
-		viewport.appendChild(t);
-	});
-}
-
-function convex_hull(points) {
-	if (points.length < 3) return points.slice();
-	let pts = points.map((p) => ({ x: p.x, y: p.y })).sort((a, b) => a.x - b.x || a.y - b.y);
-	const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
-	let lower = [];
-	for (const p of pts) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop(); lower.push(p); }
-	let upper = [];
-	for (let i = pts.length - 1; i >= 0; i--) { const p = pts[i]; while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop(); upper.push(p); }
-	lower.pop(); upper.pop();
-	return lower.concat(upper);
-}
-
-function pad_hull(hull, c, pad) {
-	return hull.map((p) => { let dx = p.x - c.x, dy = p.y - c.y, d = Math.hypot(dx, dy) || 1; return { x: p.x + (dx / d) * pad, y: p.y + (dy / d) * pad }; });
-}
-
-function enable_node_drag(g, circle, label, sub, node, nodes, edges, lineByEdge, viewport) {
-	let dragging = false;
-	function toLocal(evt) {
-		let pt = viewport.ownerSVGElement.createSVGPoint();
-		pt.x = evt.clientX; pt.y = evt.clientY;
-		return pt.matrixTransform(viewport.getScreenCTM().inverse());
-	}
-	g.addEventListener("mousedown", (e) => { dragging = true; e.stopPropagation(); e.preventDefault(); });
-	window.addEventListener("mousemove", (e) => {
-		if (!dragging) return;
-		let p = toLocal(e); node.x = p.x; node.y = p.y;
-		circle.setAttribute("cx", node.x); circle.setAttribute("cy", node.y);
-		if (label) { label.setAttribute("x", node.x); label.setAttribute("y", node.y - (node.type === "working" ? 14 : 11)); }
-		if (sub) { sub.setAttribute("x", node.x); sub.setAttribute("y", node.y + 21); }
-		let ni = nodes.indexOf(node);
-		edges.forEach((ed, ei) => {
-			let line = lineByEdge[ei];
-			if (!line) return;
-			if (ed.s === ni) { line.setAttribute("x1", node.x); line.setAttribute("y1", node.y); }
-			if (ed.t === ni) { line.setAttribute("x2", node.x); line.setAttribute("y2", node.y); }
-		});
-	});
-	window.addEventListener("mouseup", () => { dragging = false; });
-}
-
-function setup_zoom_pan(svg, viewport) {
-	let view = { x: 0, y: 0, scale: 1 };
-	function apply() { viewport.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.scale})`); }
-	svg.addEventListener("wheel", (e) => {
-		e.preventDefault();
-		let factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-		let mx = e.offsetX, my = e.offsetY;
-		view.x = mx - (mx - view.x) * factor; view.y = my - (my - view.y) * factor; view.scale *= factor;
-		apply();
-	}, { passive: false });
-	let panning = false, sx = 0, sy = 0;
-	svg.addEventListener("mousedown", (e) => { panning = true; sx = e.clientX; sy = e.clientY; svg.style.cursor = "grabbing"; });
-	window.addEventListener("mousemove", (e) => {
-		if (!panning) return;
-		view.x += e.clientX - sx; view.y += e.clientY - sy; sx = e.clientX; sy = e.clientY; apply();
-	});
-	window.addEventListener("mouseup", () => { panning = false; svg.style.cursor = "grab"; });
-}
-
 async function export_pdf() {
-	if (!CNN_STATE) return;
-	const SVGNS = "http://www.w3.org/2000/svg";
+	let cnn = frame_cnn();
+	if (!cnn) return;
 	cnn_status(__("Building PDF…"), "blue");
 	try {
-		// Content bounding box (ignores current zoom/pan — captures the whole graph)
-		const bbox = CNN_STATE.viewport.getBBox();
-		const pad = 50;
-		const x = bbox.x - pad, y = bbox.y - pad, w = bbox.width + pad * 2, h = bbox.height + pad * 2;
-
-		const clone = CNN_STATE.svg.cloneNode(true);
-		clone.setAttribute("width", w); clone.setAttribute("height", h);
-		clone.setAttribute("viewBox", `${x} ${y} ${w} ${h}`);
-		clone.setAttribute("xmlns", SVGNS);
-		let vp = clone.querySelector("g");
-		if (vp) vp.removeAttribute("transform");
-		// white background so the PDF isn't transparent
-		let bg = document.createElementNS(SVGNS, "rect");
-		bg.setAttribute("x", x); bg.setAttribute("y", y); bg.setAttribute("width", w); bg.setAttribute("height", h);
-		bg.setAttribute("fill", "#ffffff");
-		clone.insertBefore(bg, clone.firstChild);
-
-		const svgStr = new XMLSerializer().serializeToString(clone);
-		let url = await frappe.xcall("crms.crms.api.cdr_map.export_network_pdf", {
-			svg: svgStr, width: w, height: h, filename: "Common Numbers Network",
+		const png = cnn.png();
+		const bb = cnn.bbox() || { w: 1200, h: 800 };
+		const w = Math.max(Math.round(bb.w) + 140, 600);
+		const h = Math.max(Math.round(bb.h) + 140, 400);
+		let url = await frappe.xcall("crms.crms.api.cdr_map.export_network_image_pdf", {
+			image: png, width: w, height: h, filename: "Common Numbers Network",
 		});
 		cnn_status(__("PDF ready."), "green");
 		window.open(url, "_blank");
