@@ -9,6 +9,7 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
+    "openpyxl>=3.0",  # reading .xlsx CDR files during import (also ships with Frappe)
 ]
 
 [build-system]
