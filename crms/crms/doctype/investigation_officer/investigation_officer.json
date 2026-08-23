@@ -8,6 +8,9 @@
   "naming_series",
   "name_of_io",
   "rank",
+  "crms_section",
+  "crms_unit",
+  "crms_department",
   "range_no",
   "contact_no",
   "posting_date"
@@ -33,9 +36,31 @@
    "label": "Rank"
   },
   {
+   "fieldname": "crms_section",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Section",
+   "options": "Section"
+  },
+  {
+   "fetch_from": "crms_section.unit",
+   "fieldname": "crms_unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "crms_section.department",
+   "fieldname": "crms_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
    "fieldname": "range_no",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Range No"
   },
   {

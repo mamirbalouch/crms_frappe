@@ -39,6 +39,12 @@ def get_data(filters):
 	if filters.get("to_date"):
 		conditions.append("dcr.date_of_communication <= %(to_date)s")
 		values["to_date"] = filters["to_date"]
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
+
 	where = "WHERE " + " AND ".join(conditions)
 
 	raw = frappe.db.sql(

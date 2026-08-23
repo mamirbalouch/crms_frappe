@@ -121,13 +121,17 @@ after_migrate = "crms.setup.seed_initial_data"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+	"Case Project": "crms.permissions.case_project_query",
+	"Working Number": "crms.permissions.working_number_query",
+	"Call Record": "crms.permissions.call_record_query",
+}
+
+has_permission = {
+	"Case Project": "crms.permissions.case_project_has_permission",
+	"Working Number": "crms.permissions.working_number_has_permission",
+	"Call Record": "crms.permissions.call_record_has_permission",
+}
 
 # DocType Class
 # ---------------

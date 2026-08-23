@@ -40,6 +40,12 @@ def get_data(filters):
 	if filters.get("to_date"):
 		contact_conditions.append("dcr.date_of_communication <= %(to_date)s")
 		values["to_date"] = filters["to_date"]
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		contact_conditions.append(sc)
+		values.update(sv)
+
 	contact_where = "WHERE " + " AND ".join(contact_conditions)
 
 	# Filters that scope which pairs to show (at least one side must match)

@@ -55,5 +55,12 @@ def build_conditions(filters, require_datetime=False):
 	if require_datetime:
 		conditions.append("dcr.date_of_communication IS NOT NULL")
 
+	# Row-level visibility by the viewer's Department/Unit/Section scope
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
+
 	where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 	return where, values

@@ -168,6 +168,13 @@ def _detail_conditions(filters, exclude_junk=False):
 		values["to_date"] = filters["to_date"]
 	if exclude_junk:
 		conditions.append("dcr.second_party_number NOT IN ('', '1')")
+
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
+
 	where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 	return where, values
 
@@ -178,7 +185,8 @@ def _resolve_working_numbers(filters):
 	wn_filters = {}
 	if filters.get("case_project"):
 		wn_filters["case_project"] = filters["case_project"]
-	return frappe.get_all("Working Number", filters=wn_filters, pluck="name", order_by="name")
+	# get_list applies the user's permission scope (Department/Unit/Section)
+	return frappe.get_list("Working Number", filters=wn_filters, pluck="name", order_by="name", limit_page_length=0)
 
 
 def _wrap(title, subtitle, table_html, filters):

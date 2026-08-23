@@ -7,6 +7,9 @@
  "field_order": [
   "working_mobile_number",
   "case_project",
+  "crms_section",
+  "crms_unit",
+  "crms_department",
   "mobile_operator",
   "case_phase",
   "date_of_entry",
@@ -33,6 +36,31 @@
    "label": "Case Project",
    "options": "Case Project",
    "reqd": 1
+  },
+  {
+   "fetch_from": "case_project.crms_section",
+   "fieldname": "crms_section",
+   "fieldtype": "Link",
+   "label": "Section",
+   "options": "Section",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fetch_from": "case_project.crms_unit",
+   "fieldname": "crms_unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "case_project.crms_department",
+   "fieldname": "crms_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fieldname": "mobile_operator",

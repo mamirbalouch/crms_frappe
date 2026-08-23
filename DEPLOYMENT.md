@@ -135,7 +135,51 @@ almost always a missed `bench build` — re-run it and hard-refresh.
 
 ---
 
-## 7. Troubleshooting
+## 7. Roles & data visibility (Department / Unit / Section)
+
+CRMS enforces **row-level visibility** by an organisational hierarchy:
+
+```
+Department  (e.g. Karachi Police)
+  └── Unit / Zone   (e.g. South Zone)
+        └── Section / District   (e.g. Kemari)
+```
+
+Every **Case Project** is assigned a **Section**; its **Working Numbers**,
+**Call Records**, and all **reports / map / link graph** inherit that
+Section → Unit → Department automatically.
+
+**Access is set per user with two fields — no scope roles needed.** In the User
+form, under **CRMS Access**:
+
+| Access Level | Access Value | The user sees |
+|---|---|---|
+| *(blank)* | — | nothing (only **System Manager** sees all data) |
+| Department | a Department | that whole **Department** |
+| Unit | a Unit | that whole **Unit** (all its sections) |
+| Section | a Section | only that **Section** |
+
+- **Access Value** is a dynamic link — it lists Departments, Units, or Sections
+  depending on the chosen Access Level — and is **required** once a level is set.
+- **`System Manager`** (and Administrator) always see everything, regardless of these fields.
+- The only role a normal user needs is **`CRMS User`** (base access); their
+  visibility comes entirely from Access Level / Access Value.
+
+**Assigning a user:** give them the **`CRMS User`** role, then set **Access
+Level** and pick the **Access Value**. Leave both blank and they see nothing.
+
+The install seeds a starter hierarchy (**Karachi Police → South Zone → Kemari**)
+so the scheme is usable immediately; add your real departments/units/sections
+under the **Organisation** shortcuts on the CRMS workspace.
+
+> **Existing data on an upgrade:** the hierarchy fields are new, so records
+> created before this version have no Section until you set one. Set
+> `crms_section` on each Case Project (Working Numbers / Call Records under it
+> pick it up on save), or bulk-assign with a one-off script.
+
+---
+
+## 8. Troubleshooting
 
 | Symptom | Cause / fix |
 |---|---|

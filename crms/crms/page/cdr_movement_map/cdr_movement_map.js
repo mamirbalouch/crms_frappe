@@ -7,12 +7,20 @@ frappe.pages["cdr-movement-map"].on_page_load = function (wrapper) {
 
 	let $body = $(page.body);
 	$body.html(`
-		<div class="cdr-filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px;">
-			<div class="ff ff-case" style="min-width:200px;"></div>
-			<div class="ff ff-wn" style="min-width:200px;"></div>
-			<div class="ff ff-from" style="min-width:180px;"></div>
-			<div class="ff ff-to" style="min-width:180px;"></div>
-			<div><button class="btn btn-primary btn-sm" id="cdr_show">${__("Show Movement")}</button></div>
+		<style>
+			.cdr-filter-bar .help-box { display: none !important; }
+			.cdr-filter-bar .frappe-control, .cdr-filter-bar .form-group { margin: 0 !important; }
+			.cdr-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px 14px; align-items: end; margin-bottom: 10px; }
+			.cdr-actions { margin-bottom: 8px; }
+		</style>
+		<div class="cdr-filter-bar">
+			<div class="cdr-filters">
+				<div class="ff ff-case"></div>
+				<div class="ff ff-wn"></div>
+				<div class="ff ff-from"></div>
+				<div class="ff ff-to"></div>
+			</div>
+			<div class="cdr-actions"><button class="btn btn-primary btn-sm" id="cdr_show">${__("Show Movement")}</button></div>
 		</div>
 		<div id="cdr_map_status" class="text-muted" style="margin:6px 0;"></div>
 		<div id="cdr_map" style="height:70vh;width:100%;border:1px solid var(--border-color,#d1d8dd);border-radius:6px;"></div>

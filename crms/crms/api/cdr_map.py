@@ -79,6 +79,153 @@ def export_network_image_pdf(image, width=None, height=None, filename="Common Nu
 
 
 @frappe.whitelist()
+def get_project_links(case_project, working_number=None, target_case_project=None,
+                      target_working_number=None, min_digits=10, max_digits=14, max_common=50):
+	"""
+	Cross-project link analysis anchored on a Case Project (or one Working Number).
+
+	Finds three kinds of links between the anchor and a target scope
+	(a specific project / working number, or — by default — every other project):
+
+	  same_wn         : the same number is a Working Number in both projects
+	  contact_is_wn   : a number one side *contacts* is the other side's Working Number
+	  common_contact  : both sides contacted the same B-number (shared contact)
+
+	Returns {nodes, edges, counts}. Working-number sets respect the viewer's scope
+	(get_list), so a Section user only ever compares numbers they can see.
+	"""
+	min_len, max_len = int(min_digits or 10), int(max_digits or 14)
+	FIELDS = ["name", "working_mobile_number", "owner_name", "case_project"]
+
+	anchor_f = {"case_project": case_project}
+	if working_number:
+		anchor_f["name"] = working_number
+	anchor = frappe.get_list("Working Number", filters=anchor_f, fields=FIELDS, limit_page_length=0)
+
+	if target_working_number:
+		tgt_f = {"name": target_working_number}
+	elif target_case_project:
+		tgt_f = {"case_project": target_case_project}
+	else:
+		tgt_f = {"case_project": ["!=", case_project]}
+	target = frappe.get_list("Working Number", filters=tgt_f, fields=FIELDS, limit_page_length=0)
+
+	if not anchor or not target:
+		return {"nodes": [], "edges": [], "counts": {"same_wn": 0, "contact_is_wn": 0, "common_contact": 0}}
+
+	# case-title cache
+	titles = {}
+	for w in anchor + target:
+		if w.case_project not in titles:
+			titles[w.case_project] = frappe.db.get_value("Case Project", w.case_project, "case_title") or w.case_project
+
+	anchor_names = [w.name for w in anchor]
+	target_names = [w.name for w in target]
+	anchor_num_to_wn = {w.working_mobile_number: w.name for w in anchor}
+	target_num_to_wn = {w.working_mobile_number: w.name for w in target}
+	wn_by_name = {w.name: w for w in anchor + target}
+	all_wn_numbers = set(anchor_num_to_wn) | set(target_num_to_wn)
+
+	anchor_contacts = _contacts_for(anchor_names, min_len, max_len)  # {wn: {bnum: calls}}
+	target_contacts = _contacts_for(target_names, min_len, max_len)
+
+	edges = {}   # (frozenset(pair), link_type) -> weight ; keeps one edge per pair+type
+	used_wns = set()
+
+	def add_edge(a, b, ltype, w=1):
+		if a == b:
+			return
+		key = (frozenset((a, b)), ltype)
+		edges[key] = edges.get(key, 0) + w
+		used_wns.add(a)
+		used_wns.add(b)
+
+	# 1) same_wn
+	for num in set(anchor_num_to_wn) & set(target_num_to_wn):
+		add_edge(anchor_num_to_wn[num], target_num_to_wn[num], "same_wn")
+
+	# 2) contact_is_wn (either direction)
+	for a_wn, contacts in anchor_contacts.items():
+		for bnum, calls in contacts.items():
+			if bnum in target_num_to_wn:
+				add_edge(a_wn, target_num_to_wn[bnum], "contact_is_wn", calls)
+	for t_wn, contacts in target_contacts.items():
+		for bnum, calls in contacts.items():
+			if bnum in anchor_num_to_wn:
+				add_edge(t_wn, anchor_num_to_wn[bnum], "contact_is_wn", calls)
+
+	# 3) common_contact (shared B-numbers that are NOT themselves working numbers)
+	anchor_bnum_wns, target_bnum_wns = {}, {}
+	for a_wn, contacts in anchor_contacts.items():
+		for bnum in contacts:
+			if bnum not in all_wn_numbers:
+				anchor_bnum_wns.setdefault(bnum, set()).add(a_wn)
+	for t_wn, contacts in target_contacts.items():
+		for bnum in contacts:
+			if bnum not in all_wn_numbers:
+				target_bnum_wns.setdefault(bnum, set()).add(t_wn)
+	shared = set(anchor_bnum_wns) & set(target_bnum_wns)
+	# keep the busiest shared contacts
+	shared = sorted(shared, key=lambda b: len(anchor_bnum_wns[b]) + len(target_bnum_wns[b]), reverse=True)[:int(max_common)]
+
+	common_nodes = {}
+	common_edges = []
+	for bnum in shared:
+		cn = "cn:" + bnum
+		common_nodes[cn] = {"id": cn, "type": "common", "label": bnum}
+		for wn in anchor_bnum_wns[bnum] | target_bnum_wns[bnum]:
+			common_edges.append({"source": wn, "target": cn, "link_type": "common_contact"})
+			used_wns.add(wn)
+
+	# Build nodes
+	nodes = {}
+	for name in used_wns:
+		w = wn_by_name.get(name)
+		if not w:
+			continue
+		nodes[name] = {
+			"id": name, "type": "wn", "label": w.working_mobile_number,
+			"owner": w.owner_name or "", "case": titles.get(w.case_project, w.case_project),
+			"anchor": name in anchor_num_to_wn.values(),
+		}
+	nodes.update(common_nodes)
+
+	out_edges = [{"source": list(k[0])[0], "target": list(k[0])[1], "link_type": k[1], "weight": v}
+	             for k, v in edges.items()]
+	out_edges += common_edges
+
+	counts = {
+		"same_wn": sum(1 for k in edges if k[1] == "same_wn"),
+		"contact_is_wn": sum(1 for k in edges if k[1] == "contact_is_wn"),
+		"common_contact": len(common_nodes),
+	}
+	return {"nodes": list(nodes.values()), "edges": out_edges, "counts": counts}
+
+
+def _contacts_for(wn_names, min_len, max_len):
+	"""Return {working_number: {b_number: call_count}} for the given working numbers."""
+	if not wn_names:
+		return {}
+	rows = frappe.db.sql(
+		"""
+		SELECT cr.working_number AS wn, dcr.second_party_number AS bnum, COUNT(*) AS calls
+		FROM `tabDetail Call Record` dcr
+		INNER JOIN `tabCall Record` cr ON dcr.parent = cr.name
+		WHERE cr.working_number IN %(wns)s
+		  AND dcr.second_party_number NOT IN ('', '1')
+		  AND LENGTH(dcr.second_party_number) BETWEEN %(mn)s AND %(mx)s
+		GROUP BY cr.working_number, dcr.second_party_number
+		""",
+		{"wns": tuple(wn_names), "mn": min_len, "mx": max_len},
+		as_dict=True,
+	)
+	out = {}
+	for r in rows:
+		out.setdefault(r.wn, {})[r.bnum] = r.calls
+	return out
+
+
+@frappe.whitelist()
 def get_common_number_network(case_project=None, working_number=None, from_date=None, to_date=None,
                               min_digits=10, max_digits=14, only_cross_case=0, max_nodes=60):
 	"""
@@ -105,6 +252,12 @@ def get_common_number_network(case_project=None, working_number=None, from_date=
 	if working_number:
 		# center on one working number: only its common numbers and their other links
 		values["wn"] = working_number
+
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
 
 	where = "WHERE " + " AND ".join(conditions)
 
@@ -212,6 +365,12 @@ def get_movement_points(working_number, from_date=None, to_date=None):
 	if to_date:
 		conditions.append("dcr.date_of_communication <= %(td)s")
 		values["td"] = to_date
+
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("cr")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
 
 	rows = frappe.db.sql(
 		f"""

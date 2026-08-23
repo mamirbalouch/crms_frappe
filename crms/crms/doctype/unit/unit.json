@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "autoname": "field:unit_name",
+ "creation": "2026-08-23 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "unit_name",
+  "department",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "unit_name",
+   "fieldtype": "Data",
+   "label": "Unit / Zone Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-23 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRMS",
+ "name": "Unit",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "CRMS User",
+   "read": 1
+  }
+ ],
+ "search_fields": "department",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "unit_name",
+ "track_changes": 1
+}

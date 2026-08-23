@@ -8,6 +8,9 @@
   "naming_series",
   "working_number",
   "working_mobile_number",
+  "crms_section",
+  "crms_unit",
+  "crms_department",
   "case_phase",
   "column_break_jtqc",
   "start_date_record",
@@ -38,6 +41,31 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Owner Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "working_number.crms_section",
+   "fieldname": "crms_section",
+   "fieldtype": "Link",
+   "label": "Section",
+   "options": "Section",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fetch_from": "working_number.crms_unit",
+   "fieldname": "crms_unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "Unit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "working_number.crms_department",
+   "fieldname": "crms_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
    "read_only": 1
   },
   {

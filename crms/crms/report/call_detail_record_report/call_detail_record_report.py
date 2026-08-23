@@ -48,6 +48,12 @@ def get_data(filters):
 		conditions.append("dcr.call_type = %(call_type)s")
 		values["call_type"] = filters["call_type"]
 
+	from crms.permissions import scope_condition
+	sc, sv = scope_condition("wn")
+	if sc:
+		conditions.append(sc)
+		values.update(sv)
+
 	where_clause = "WHERE " + " AND ".join(conditions) if conditions else ""
 
 	return frappe.db.sql(

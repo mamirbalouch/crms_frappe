@@ -1,7 +1,8 @@
 {
  "actions": [],
+ "allow_import": 1,
  "autoname": "naming_series:",
- "creation": "2025-01-01 00:00:00.000000",
+ "creation": "2025-01-01 00:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -87,8 +88,8 @@
   }
  ],
  "links": [],
- "modified": "2025-01-01 00:00:00.000000",
- "modified_by": "Administrator",
+ "modified": "2026-08-23 15:07:17.633447",
+ "modified_by": "mamirbalouch@gmail.com",
  "module": "CRMS",
  "name": "Mobile User Data",
  "naming_rule": "By \"Naming Series\" field",
@@ -118,6 +119,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "mobile_number,name_of_mobile_user,nic_no",
  "sort_field": "modified",
  "sort_order": "DESC",

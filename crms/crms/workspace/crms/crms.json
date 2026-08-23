@@ -1,27 +1,190 @@
 {
  "charts": [],
- "content": "[{\"id\":\"shortcuts3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Call Record\",\"col\":3}},{\"id\":\"shortcuts7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Bulk Import\",\"col\":3}},{\"id\":\"shortcuts8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Movement Map\",\"col\":3}},{\"id\":\"shortcuts10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Common Numbers Network\",\"col\":3}},{\"id\":\"shortcuts11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Report Pack\",\"col\":3}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Case Project\",\"col\":3}},{\"id\":\"shortcuts2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Working Number\",\"col\":3}},{\"id\":\"shortcuts4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile User Data\",\"col\":3}},{\"id\":\"shortcuts5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Geo Location\",\"col\":3}},{\"id\":\"shortcuts6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Investigation Officer\",\"col\":3}},{\"id\":\"shortcuts9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Import Profile\",\"col\":3}},{\"id\":\"reportheader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports &amp; Analysis</b></span>\",\"col\":12}},{\"id\":\"reportcard\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports & Analysis\",\"col\":4}},{\"id\":\"onboarding\",\"type\":\"onboarding\",\"data\":{\"onboarding_name\":\"CRMS\"}},{\"id\":\"spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
- "creation": "2025-01-01 00:00:00.000000",
+ "content": "[{\"id\":\"kzCnxG5qGa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Department / Unit Settings</b></span>\",\"col\":12}},{\"id\":\"agAcyh-s0e\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Department\",\"col\":3}},{\"id\":\"9ep_G04fgC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Unit\",\"col\":3}},{\"id\":\"2nsjMeq00e\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Section\",\"col\":3}},{\"id\":\"cltqF7IPq5\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Transaction Forms</b></span>\",\"col\":12}},{\"id\":\"shortcuts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Case Project\",\"col\":3}},{\"id\":\"shortcuts2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Working Number\",\"col\":3}},{\"id\":\"shortcuts7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Bulk Import\",\"col\":3}},{\"id\":\"shortcuts6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Investigation Officer\",\"col\":3}},{\"id\":\"shortcuts10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Common Numbers Network\",\"col\":3}},{\"id\":\"shortcuts11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Report Pack\",\"col\":3}},{\"id\":\"shortcuts4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile User Data\",\"col\":3}},{\"id\":\"shortcuts5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Geo Location\",\"col\":3}},{\"id\":\"shortcuts8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Movement Map\",\"col\":3}},{\"id\":\"shortcuts9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CDR Import Profile\",\"col\":3}},{\"id\":\"shortcuts3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Call Record\",\"col\":3}},{\"id\":\"reportheader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports &amp; Analysis</b></span>\",\"col\":12}},{\"id\":\"reportcard\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports & Analysis\",\"col\":4}},{\"id\":\"spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2025-01-01 00:00:00",
+ "custom_blocks": [],
+ "docstatus": 0,
  "doctype": "Workspace",
  "hide_custom": 0,
+ "idx": 0,
  "is_hidden": 0,
  "label": "CRMS",
- "modified": "2026-08-23 00:00:00.000000",
- "modified_by": "Administrator",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports & Analysis",
+   "link_count": 14,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Call Detail Record Report",
+   "link_count": 0,
+   "link_to": "Call Detail Record Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Call Frequency Report",
+   "link_count": 0,
+   "link_to": "Call Frequency Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Short Call Frequency Report",
+   "link_count": 0,
+   "link_to": "Short Call Frequency Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Common Numbers Report",
+   "link_count": 0,
+   "link_to": "Common Numbers Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "RBS Wise Report",
+   "link_count": 0,
+   "link_to": "RBS Wise Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Daily Activity Summary",
+   "link_count": 0,
+   "link_to": "Daily Activity Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Hourly Activity Pattern",
+   "link_count": 0,
+   "link_to": "Hourly Activity Pattern",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "IMEI Usage Report",
+   "link_count": 0,
+   "link_to": "IMEI Usage Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Contact Summary Report",
+   "link_count": 0,
+   "link_to": "Contact Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Weekday RBS Activity",
+   "link_count": 0,
+   "link_to": "Weekday RBS Activity",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Weekday Caller Activity",
+   "link_count": 0,
+   "link_to": "Weekday Caller Activity",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "CDR Movement Map",
+   "link_count": 0,
+   "link_to": "cdr-movement-map",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Common Numbers Network",
+   "link_count": 0,
+   "link_to": "common-numbers-network",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "CDR Report Pack",
+   "link_count": 0,
+   "link_to": "cdr-report-pack",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-08-23 14:27:47.157383",
+ "modified_by": "mamirbalouch@gmail.com",
  "module": "CRMS",
  "name": "CRMS",
+ "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
+ "quick_lists": [],
  "restrict_to_domain": "",
  "roles": [],
- "sequence_id": 1,
+ "sequence_id": 1.0,
  "shortcuts": [
   {
    "color": "Blue",
    "doc_view": "List",
    "label": "Case Project",
    "link_to": "Case Project",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Department",
+   "link_to": "Department",
+   "stats_filter": "[]",
    "type": "DocType"
   },
   {
@@ -32,10 +195,26 @@
    "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Unit",
+   "link_to": "Unit",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
    "color": "Orange",
    "doc_view": "List",
    "label": "Call Record",
    "link_to": "Call Record",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Section",
+   "link_to": "Section",
+   "stats_filter": "[]",
    "type": "DocType"
   },
   {
@@ -89,167 +268,6 @@
    "label": "CDR Import Profile",
    "link_to": "CDR Import Profile",
    "type": "DocType"
-  },
-  {
-   "label": "Call Detail Record Report",
-   "link_to": "Call Detail Record Report",
-   "type": "Report"
-  },
-  {
-   "label": "Call Frequency Report",
-   "link_to": "Call Frequency Report",
-   "type": "Report"
-  },
-  {
-   "label": "Common Numbers Report",
-   "link_to": "Common Numbers Report",
-   "type": "Report"
-  },
-  {
-   "label": "RBS Wise Report",
-   "link_to": "RBS Wise Report",
-   "type": "Report"
-  },
-  {
-   "label": "Short Call Frequency Report",
-   "link_to": "Short Call Frequency Report",
-   "type": "Report"
-  }
- ],
- "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reports & Analysis",
-   "link_count": 14,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Call Detail Record Report",
-   "link_to": "Call Detail Record Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Call Frequency Report",
-   "link_to": "Call Frequency Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Short Call Frequency Report",
-   "link_to": "Short Call Frequency Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Common Numbers Report",
-   "link_to": "Common Numbers Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "RBS Wise Report",
-   "link_to": "RBS Wise Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Daily Activity Summary",
-   "link_to": "Daily Activity Summary",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Hourly Activity Pattern",
-   "link_to": "Hourly Activity Pattern",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "IMEI Usage Report",
-   "link_to": "IMEI Usage Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Contact Summary Report",
-   "link_to": "Contact Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Weekday RBS Activity",
-   "link_to": "Weekday RBS Activity",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Weekday Caller Activity",
-   "link_to": "Weekday Caller Activity",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "CDR Movement Map",
-   "link_to": "cdr-movement-map",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Common Numbers Network",
-   "link_to": "common-numbers-network",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "CDR Report Pack",
-   "link_to": "cdr-report-pack",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
  "title": "CRMS"

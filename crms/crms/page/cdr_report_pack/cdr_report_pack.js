@@ -7,13 +7,18 @@ frappe.pages["cdr-report-pack"].on_page_load = function (wrapper) {
 
 	let $body = $(page.body);
 	$body.html(`
-		<div style="max-width:720px;">
+		<style>
+			.rp-form .help-box { display: none !important; }
+			.rp-form .frappe-control, .rp-form .form-group { margin: 0 !important; }
+			.rp-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px 14px; align-items: end; margin: 10px 0 16px; }
+		</style>
+		<div class="rp-form" style="max-width:760px;">
 			<p class="text-muted">${__("Generate CDR, Frequency, RBS and Common Numbers reports as PDFs, bundled in one ZIP (a folder per working number). Pick a Working Number for a single set, or just a Case Project to produce a set for every number in the case.")}</p>
-			<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin:10px 0;">
-				<div class="ff ff-case" style="min-width:220px;"></div>
-				<div class="ff ff-wn" style="min-width:220px;"></div>
-				<div class="ff ff-from" style="min-width:180px;"></div>
-				<div class="ff ff-to" style="min-width:180px;"></div>
+			<div class="rp-filters">
+				<div class="ff ff-case"></div>
+				<div class="ff ff-wn"></div>
+				<div class="ff ff-from"></div>
+				<div class="ff ff-to"></div>
 			</div>
 			<button class="btn btn-primary" id="rp_go">${__("Generate All Reports (ZIP)")}</button>
 			<div id="rp_status" style="margin-top:12px;min-height:22px;"></div>

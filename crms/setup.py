@@ -342,10 +342,66 @@ PROFILES = [
 
 def seed_initial_data():
     """Idempotent: skips records that already exist."""
+    _seed_roles()
+    _seed_user_scope_fields()
     _seed_operators()
     _seed_call_types()
     _seed_profiles()
+    _seed_hierarchy_template()
     frappe.db.commit()
+
+
+# ── Organisational hierarchy: roles, User fields, sample template ──────────────
+
+CRMS_ROLES = ["CRMS User"]  # scope is field-based (Access Level/Value); "all" = System Manager
+
+# A minimal example so the scheme is usable out of the box (idempotent).
+HIERARCHY_TEMPLATE = {
+    "department": "Karachi Police",
+    "unit": "South Zone",
+    "section": "Kemari",
+}
+
+
+def _seed_roles():
+    for role in CRMS_ROLES:
+        if not frappe.db.exists("Role", role):
+            frappe.get_doc({"doctype": "Role", "role_name": role, "desk_access": 1}).insert(ignore_permissions=True)
+
+
+def _seed_user_scope_fields():
+    """Add the scope-assignment fields to the User doctype (idempotent)."""
+    from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+    # Remove the earlier per-level Link fields (replaced by Access Level/Value)
+    for fieldname in ("crms_department", "crms_unit", "crms_section"):
+        cf = frappe.db.get_value("Custom Field", {"dt": "User", "fieldname": fieldname})
+        if cf:
+            frappe.delete_doc("Custom Field", cf, ignore_permissions=True, force=True)
+
+    create_custom_fields({
+        "User": [
+            {"fieldname": "crms_access_section", "fieldtype": "Section Break", "label": "CRMS Access",
+             "insert_after": "username", "collapsible": 1},
+            {"fieldname": "crms_access_level", "label": "Access Level", "fieldtype": "Select",
+             "options": "\nDepartment\nUnit\nSection", "insert_after": "crms_access_section",
+             "description": "How much this user can see. Blank = no access (only System Manager sees all data)."},
+            {"fieldname": "crms_access_value", "label": "Access Value", "fieldtype": "Dynamic Link",
+             "options": "crms_access_level", "insert_after": "crms_access_level",
+             "depends_on": "crms_access_level", "mandatory_depends_on": "crms_access_level",
+             "description": "The specific Department / Unit / Section this user may view."},
+        ]
+    }, ignore_validate=True)
+
+
+def _seed_hierarchy_template():
+    t = HIERARCHY_TEMPLATE
+    if not frappe.db.exists("Department", t["department"]):
+        frappe.get_doc({"doctype": "Department", "department_name": t["department"]}).insert(ignore_permissions=True)
+    if not frappe.db.exists("Unit", t["unit"]):
+        frappe.get_doc({"doctype": "Unit", "unit_name": t["unit"], "department": t["department"]}).insert(ignore_permissions=True)
+    if not frappe.db.exists("Section", t["section"]):
+        frappe.get_doc({"doctype": "Section", "section_name": t["section"], "unit": t["unit"]}).insert(ignore_permissions=True)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
